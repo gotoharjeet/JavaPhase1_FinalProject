@@ -96,7 +96,8 @@ public class LockedMe {
 			System.out.println("\t\tEnter Employee Id : "+(eid=obj.nextInt()));
 			
 			System.out.println("\t\tEnter Employee Name : "+(ename=obj.next()));
-			System.out.println("\t\tEnter Employee Salary : "+(esal=obj.nextFloat()));						
+			System.out.println("\t\tEnter Employee Salary : "+(esal=obj.nextFloat()));	
+			System.out.println("\t\t**************************");
 			eobj=new Employee(eid,ename,esal);
 		
 		System.out.println(eobj.toString());
@@ -108,7 +109,7 @@ public class LockedMe {
 				
 				fw.write(eobj.toString());
 
-			      // Closes the writer
+			      // Closes the writerEmployee - Copy
 				fw.close();
 			    }
 
@@ -121,7 +122,31 @@ public class LockedMe {
 	
 	public static void deleteFile()
 	{
+		String fname="";
 		
+		System.out.println("\t\t**************************");
+		System.out.println("\t\tEnter the File Name to be deleted : ");
+		fname=obj.next();
+		System.out.println("\t\t**************************");
+		System.out.println(fname);
+		try
+		{
+			File file = new File("E:\\springframework\\core\\eclipse\\Session1\\JavaPhase1_FinalProject\\CompanyLockersProject\\src\\com\\company\\lockers\\dataFiles\\"+fname);
+		
+			if(file.exists())
+			{
+				file.delete();
+			}
+			else
+			{
+				System.out.println("File does not exist");
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		System.out.println("File deleted successfully");
 	}
 	public static void searchFile()
 	{
@@ -139,7 +164,7 @@ public class LockedMe {
 			{
 			case 1: getFileNames();break;
 			case 2: createFile();break;
-			case 3: break;
+			case 3: deleteFile();break;
 			case 4: break;
 			default: break;
 			}
