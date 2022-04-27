@@ -1,5 +1,6 @@
 package com.company.lockers;
 import java.io.File;
+
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.util.ArrayList;
@@ -47,12 +48,25 @@ class Employee
 
 public class LockedMe {
 	public static Scanner obj;
+	public static String fname;
+	public static File[] file_names=new File("E:\\springframework\\core\\eclipse"
+   			+ "\\Session1\\JavaPhase1_FinalProject\\"
+   			+ "CompanyLockersProject\\src\\com\\company\\lockers\\"
+   			+ "dataFiles").listFiles();
+	public static ArrayList<String> list_filenames=new ArrayList<String>();
 	static
 	{
 		obj=ScannerObject.getScannerObj();
 	}
+	public static void display_msg(String message)
+	{
+		System.out.println(message);
+	}
+	
 	public static void display_menu()
 	{
+		//System.out.println("press<Enter> to display Main Menu");
+		obj.nextLine();
 		System.out.println("\t**************************************************");
 		System.out.println("\t\tProject Name: LockedMe");
 		System.out.println("\t\tDeveloper Name : Harjeet Singh Kainth");
@@ -66,41 +80,41 @@ public class LockedMe {
 		System.out.println("\t**************************************************");
 	}
 	
-	public static void getFileNames()
+	public static void getFileNames() throws InterruptedException
 	{
-	   	File[] file_names=new File("E:\\springframework\\core\\eclipse"
-	   			+ "\\Session1\\JavaPhase1_FinalProject\\"
-	   			+ "CompanyLockersProject\\src\\com\\company\\lockers\\"
-	   			+ "dataFiles").listFiles();
+			
 	   	System.out.println("\t\tList of Files");
    		System.out.println("\t\t*************");
 	   	for(File fname:file_names)
 	   	{	
 	   		System.out.println("\t\t"+fname.getName());
 	   	}
-	   	obj.nextLine();
-	   	System.out.flush();
+	   	System.out.println("press<Enter>back to Main Menu");
+	    obj.nextLine();
 	}
 	public static void createFile()
 	{
 		
 		int option=1;
 		int eid=0;
-		String ename="";
+		String ename;
 		float esal=0;
 		Employee eobj;
-		
-		
+		int nrec=0;
+		obj.nextLine();
+		System.out.println("Enter How many records you want to enter ");
+		nrec=obj.nextInt();
 		do {
-			System.out.println("\t\t**************************");
-			System.out.println("\t\tEnter Employee Id : "+(eid=obj.nextInt()));
 			
-			System.out.println("\t\tEnter Employee Name : "+(ename=obj.next()));
-			System.out.println("\t\tEnter Employee Salary : "+(esal=obj.nextFloat()));	
-			System.out.println("\t\t**************************");
+			System.out.println("**************************");
+			System.out.println("Enter Employee Id : \n");
+			eid=obj.nextInt();
+			System.out.println("Enter Employee Name : ");
+			ename=obj.next();
+			System.out.println("Enter Employee Salary : ");
+			esal=obj.nextInt();	
+			System.out.println("**************************");
 			eobj=new Employee(eid,ename,esal);
-		
-		System.out.println(eobj.toString());
 			try {
 			      // Creates a FileWriter
 				FileWriter fw=new FileWriter("E:\\springframework\\core\\eclipse\\Session1\\JavaPhase1_FinalProject\\CompanyLockersProject\\src\\com\\company\\lockers\\dataFiles\\EmployeeDetails.txt",true);
@@ -111,23 +125,29 @@ public class LockedMe {
 
 			      // Closes the writerEmployee - Copy
 				fw.close();
+				
 			    }
 
 			    catch (Exception e) {
 			      e.printStackTrace();
+			      
 			    }	
-		} while (++option<=4);
+		} while (++option<=nrec);
+		System.out.println("press<Enter>back to Main Menu");
+		obj.nextLine();
 	}
 	
 	
 	public static void deleteFile()
 	{
-		String fname="";
 		
-		System.out.println("\t\t**************************");
-		System.out.println("\t\tEnter the File Name to be deleted : ");
+		//display_msg("**********************************");
+		System.out.println("**********************************");
+		System.out.println("Enter the File Name to be deleted : ");
+		//display_msg("Enter the File Name to be deleted : ");
+		System.out.println("**********************************");
+		//display_msg("**********************************");
 		fname=obj.next();
-		System.out.println("\t\t**************************");
 		System.out.println(fname);
 		try
 		{
@@ -136,6 +156,7 @@ public class LockedMe {
 			if(file.exists())
 			{
 				file.delete();
+				System.out.println("File deleted successfully");
 			}
 			else
 			{
@@ -146,11 +167,36 @@ public class LockedMe {
 		{
 			e.printStackTrace();
 		}
-		System.out.println("File deleted successfully");
+		System.out.println("press<Enter>back to Main Menu");
+		obj.nextLine();
 	}
 	public static void searchFile()
 	{
+		boolean flag=false;
+		//obj.nextLine();
+		System.out.println("**********************************");
+		System.out.println("Enter the File Name to be searched : ");
+		System.out.println("**********************************");
+		fname=obj.next();
+		System.out.println(fname);
 		
+		for(File fn:file_names)
+		{
+			list_filenames.add(fn.getName());
+		}
+		
+		if(list_filenames.contains(fname))
+		{
+			System.out.println("File is available");
+			System.out.println("press<Enter>back to Main Menu");
+			obj.nextLine();
+		}
+		else
+		{
+			System.out.println("File does not exist");
+			System.out.println("press<Enter>back to Main Menu");
+			obj.nextLine();
+		}
 	}
 	public static void main(String[] args) throws Exception{
 		
@@ -165,10 +211,11 @@ public class LockedMe {
 			case 1: getFileNames();break;
 			case 2: createFile();break;
 			case 3: deleteFile();break;
-			case 4: break;
+			case 4: searchFile();break;
+			case 5: System.exit(0);
 			default: break;
 			}
 		}while(menu_option <5);
 	}
-
 }
+
