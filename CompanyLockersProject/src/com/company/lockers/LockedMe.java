@@ -1,10 +1,8 @@
 package com.company.lockers;
 import java.io.File;
-
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import com.company.singleton.ScannerObject;
 
@@ -94,10 +92,9 @@ public class LockedMe {
 	}
 	public static void createFile()
 	{
-		
 		int option=1;
 		int eid=0;
-		String ename;
+		String ename="";
 		float esal=0;
 		Employee eobj;
 		int nrec=0;
@@ -105,7 +102,8 @@ public class LockedMe {
 		System.out.println("Enter How many records you want to enter ");
 		nrec=obj.nextInt();
 		do {
-			
+			try
+			{
 			System.out.println("**************************");
 			System.out.println("Enter Employee Id : \n");
 			eid=obj.nextInt();
@@ -113,8 +111,13 @@ public class LockedMe {
 			ename=obj.next();
 			System.out.println("Enter Employee Salary : ");
 			esal=obj.nextInt();	
-			System.out.println("**************************");
-			eobj=new Employee(eid,ename,esal);
+			System.out.println("**************************");	
+			}
+			catch(InputMismatchException e)
+			{
+				System.out.println("employee id must be number,Employee Name must be single word, and Employee Salary must be number only");
+			}
+						eobj=new Employee(eid,ename,esal);
 			try {
 			      // Creates a FileWriter
 				FileWriter fw=new FileWriter("E:\\springframework\\core\\eclipse\\Session1\\JavaPhase1_FinalProject\\CompanyLockersProject\\src\\com\\company\\lockers\\dataFiles\\EmployeeDetails.txt",true);
